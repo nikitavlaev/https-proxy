@@ -6,6 +6,6 @@ pip install -r requirements.txt
 ```
 ## Run
 ```
-python proxy.py
+python proxy.py -host 0.0.0.0 -p 3000 -c 50
 ```
-By default, proxy server will start on `0.0.0.0:3000`
+Proxy server should start on `0.0.0.0:3000`
