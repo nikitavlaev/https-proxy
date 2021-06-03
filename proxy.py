@@ -12,7 +12,7 @@ except ImportError:
 class HttpProxy:
     BUFFER_SIZE = 8192
 
-    def __init__(self, host="0.0.0.0", port=3000, max_clients=50):
+    def __init__(self, host="0.0.0.0", port=3000, max_clients=128):
         self.host = host
         self.port = port
         self.max_clients = max_clients
@@ -150,7 +150,7 @@ if __name__ == "__main__":
         help="Maximum number of clients",
         dest="c",
         type=int,
-        default=50
+        default=128
     )
 
     args = parser.parse_args()
