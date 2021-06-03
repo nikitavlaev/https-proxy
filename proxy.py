@@ -1,5 +1,6 @@
 import socket
 from threading import Thread
+from argparse import ArgumentParser
 
 # try to import C parser then fallback in pure python parser.
 try:
@@ -10,16 +11,16 @@ except ImportError:
 
 class HttpProxy:
     BUFFER_SIZE = 8192
-    MAX_CLIENTS = 50
 
-    def __init__(self, host="0.0.0.0", port=3000):
+    def __init__(self, host="0.0.0.0", port=3000, max_clients=50):
         self.host = host
         self.port = port
+        self.max_clients = max_clients
 
     def run(self):
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client_socket.bind((self.host, self.port))
-        client_socket.listen(self.MAX_CLIENTS)
+        client_socket.listen(self.max_clients)
         print(f"Proxy running - {self.host}:{self.port}")
         while True:
             source, addr = client_socket.accept()
@@ -125,4 +126,33 @@ class HttpProxy:
         return data
 
 if __name__ == "__main__":
-    HttpProxy("0.0.0.0").run()
+    parser = ArgumentParser()
+
+    parser.add_argument(
+        "-h"
+        "--hostname",
+        help="Hostname to bind to",
+        dest="h",
+        type=str,
+        default="0.0.0.0"
+    )
+    parser.add_argument(
+        "-p"
+        "--port",
+        help="Port to bind to",
+        dest="p",
+        type=int,
+        default=3000
+    )
+    parser.add_argument(
+        "-c"
+        "--max-clients",
+        help="Maximum number of clients",
+        dest="c",
+        type=int,
+        default=50
+    )
+
+    args = parser.parse_args()
+
+    HttpProxy(args.h, args.p, args.c).run()
