@@ -129,7 +129,7 @@ if __name__ == "__main__":
     parser = ArgumentParser()
 
     parser.add_argument(
-        "-h"
+        "-host",
         "--hostname",
         help="Hostname to bind to",
         dest="h",
