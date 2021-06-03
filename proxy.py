@@ -23,7 +23,7 @@ class HttpProxy:
         print(f"Proxy running - {self.host}:{self.port}")
         while True:
             source, addr = client_socket.accept()
-            print(f"Accept from {addr[0]}:{addr[1]} {self.num}")
+            print(f"Accept from {addr[0]}:{addr[1]}")
             Thread(target=self.handle_request, args=(source,)).start()
     
     def handle_request(self, source):
@@ -77,7 +77,7 @@ class HttpProxy:
                     "ProxyServer-agent: MyProxy\r\n\r\n")
             source.sendall(reply.encode())
         except socket.error as err:
-            print(err)
+            print(f"Could not establish https tunnel with {host}:{port}. {err}")
             server.close()
             source.close()
             return
